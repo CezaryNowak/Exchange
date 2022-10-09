@@ -33,13 +33,14 @@ class userController extends Controller {
             'nickname' => ['required'],
             'password' => ['required']
         ]);
-
+        
         if (auth()->attempt($formFields)) {
             $request->session()->regenerate();
             if (Storage::disk('public')->exists('logos/' . auth()->user()->nickname . '.png') == false) {
-                Storage::disk('public')->put('logos/' . $formFields['nickname'] . '.png', file_get_contents('https://ui-avatars.com/api/?name=' . auth()->user()->name . '+.' . auth()->user()->surname . '&background=3ebe3e&color=ffffff&rounded=true'));
+                $url='https://ui-avatars.com/api/?name=' . auth()->user()->name . '+' . auth()->user()->surname . '&background=3ebe3e&color=ffffff&rounded=true';
+                Storage::disk('public')->put('logos/' . $formFields['nickname'] . '.png', file_get_contents($url));
             }
-
+           
 
             return redirect('/')->with('message', 'You are logged in');
         }
@@ -67,25 +68,30 @@ class userController extends Controller {
 
     // Add new user
     public function store(Request $request) {
+
+        // Logged in?
         if (auth()->check()) {
             return redirect('/');
         }
 
+        // Validate
         $formFields = $request->validate([
             'name' => ['required', 'min:3', 'alpha'],
             'surname' => ['required', 'min:3', 'alpha'],
             'nickname' => ['required', 'min:5', 'alpha_num', Rule::unique('users', 'nickname')],
             'password' => 'required|confirmed|min:5'
         ]);
+
         // Hash Password
         $formFields['password'] = Hash::make($formFields['password']);
         $formFields['name'][0] = strtoupper($formFields['name'][0]);
         $formFields['surname'][0] = strtoupper($formFields['surname'][0]);
 
         // Create User
-
         $user = User::create($formFields);
-        Storage::disk('public')->put('logos/' . $formFields['nickname'] . '.png', file_get_contents('https://ui-avatars.com/api/?name=' . $formFields['name'] . '+.' . $formFields['surname'] . '&background=3ebe3e&color=ffffff&rounded=true'));
+        $url = 'https://ui-avatars.com/api/?name=' . $formFields['name'] . '+' . $formFields['surname'] . '&background=3ebe3e&color=ffffff&rounded=true';
+        Storage::disk('public')->put('logos/' . $formFields['nickname'] . '.png', file_get_contents($url));
+
         // Log in
         auth()->login($user);
 
