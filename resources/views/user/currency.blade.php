@@ -4,7 +4,7 @@
     <div class="bg-greenish p-1 container">
         <h1 class="text-center txt-green p-1 font-bold">{{ __('Choose currency:') }}</h1>
         <div class="container d-flex flex-column">
-            <input type="text" id="currencySearch" class="form-select-lg" placeholder="{{ __('Search currency') }}" title="{{ __('Write to search') }}">
+            <input type="text" id="currencySearch" class="form-select-lg" placeholder="{{ __('Write to search currency') }}" title="{{ __('Write to search') }}">
             <form method="POST" action="/setcurrency" class="d-flex flex-column">
                 @csrf
                 <select id="currencyChooseMenu" class="form-select" name="currency" size="2" required>
