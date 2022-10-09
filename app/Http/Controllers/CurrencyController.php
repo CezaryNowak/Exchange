@@ -44,9 +44,9 @@ class CurrencyController extends Controller {
                 if ($date->gt($limit) == false || $date->gt(Carbon::today()) == true)
                     return redirect('/currency')->with('message', 'Date is not in limit');
 
-                $url = 'http://api.nbp.pl/api/exchangerates/rates/' . $tableVar . '/' . $code . '/' . $date->format('Y-m-d') . '/?format=json';
+                $url = 'https://api.nbp.pl/api/exchangerates/rates/' . $tableVar . '/' . $code . '/' . $date->format('Y-m-d') . '/?format=json';
             } else
-                $url = 'http://api.nbp.pl/api/exchangerates/rates/' . $tableVar . '/' . $code . '/?format=json';
+                $url = 'https://api.nbp.pl/api/exchangerates/rates/' . $tableVar . '/' . $code . '/?format=json';
 
             $data = null;
 
