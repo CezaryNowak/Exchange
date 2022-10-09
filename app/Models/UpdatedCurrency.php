@@ -5,10 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Update extends Model
+class UpdatedCurrency extends Model
 {
     use HasFactory;
-    protected $table = 'update';
+    protected $table = 'updatedCurrency';
     protected $fillable = [
         'number',
         'tableAfe'

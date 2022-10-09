@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Currency;
 use App\Models\Update;
+use App\Models\UpdatedCurrency;
 use App\Models\Watched;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -31,16 +32,13 @@ class WatchedCurrencyController extends Controller {
         return [$curr->get(), $data];
     }
 
-//should also chceck current date if today is not weekend and if today was checked after 12 for table a
-//for table b should check if todat is wensday and after 12 then chceck if it needs update
-
     public function updateData() {
         $url1 = 'https://api.nbp.pl/api/exchangerates/tables/a/?format=json';
         $url2 = 'https://api.nbp.pl/api/exchangerates/tables/b/?format=json';
         $data1 = json_decode(file_get_contents($url1), true);
         $data2 = json_decode(file_get_contents($url2), true);
 
-        if ($data1[0]['no'] != Update::all()[0]->number) {
+        if ($data1[0]['no'] != UpdatedCurrency::all()[0]->number) {
 
             foreach ($data1[0]['rates'] as $datum) {
                 Currency::where('symbol', $datum['code'])->update([
@@ -48,17 +46,17 @@ class WatchedCurrencyController extends Controller {
                 ]);
             }
 
-            Update::whereId('1')->update([
+            UpdatedCurrency::whereId('1')->update([
                 'number' => $data1[0]['no']
             ]);
         }
-        if ($data2[0]['no'] != Update::all()[1]->number) {
+        if ($data2[0]['no'] != UpdatedCurrency::all()[1]->number) {
             foreach ($data2[0]['rates'] as $datum) {
                 Currency::where('symbol', $datum['code'])->update([
                     'price' => $datum['mid']
                 ]);
             }
-            Update::whereId('2')->update([
+            UpdatedCurrency::whereId('2')->update([
                 'number' => $data2[0]['no']
             ]);
         }

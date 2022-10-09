@@ -5,7 +5,8 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Currency;
-use App\Models\Update;
+use App\Models\UpdatedCurrency;
+use Carbon\Carbon;
 
 class DatabaseSeeder extends Seeder {
 
@@ -20,7 +21,7 @@ class DatabaseSeeder extends Seeder {
         $data = json_decode(file_get_contents($url), true);
         $data2 = json_decode(file_get_contents($url2), true);
 
-        $update = new Update();
+        $update = new UpdatedCurrency();
         $update->number = $data[0]['no'];
         $update->tableAfe = 'A';
         $update->save();
@@ -35,7 +36,7 @@ class DatabaseSeeder extends Seeder {
         }
 
 
-        $update = new Update();
+        $update = new UpdatedCurrency();
         $update->number = $data2[0]['no'];
         $update->tableAfe = 'B';
         $update->save();

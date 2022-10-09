@@ -10,7 +10,7 @@ class Watched extends Model {
     protected $table = 'watched';
     protected $fillable = [
         'user_id',
-        'currency_id',
+        'currency_id'
     ];
 
     use HasFactory;
