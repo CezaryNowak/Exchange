@@ -1,6 +1,6 @@
 <a name="readme-top"></a>
 # Permuttio
-Simple web app where you can check stock and gold prices.
+Simple web app where you can check prices of currencies and gold.
 
 ## Table of contents
 * [About the project](#About-the-project)
